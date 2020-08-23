@@ -20,10 +20,10 @@ class preloadScene extends Phaser.Scene{
 		var loadingText = this.add.text(225,560,"Cargando: ", { fontSize: '32px', fill: '#FFF' });
 
 
-		this.load.image('images1', '/assets/images/atlas/images1.png');
-		this.load.tilemapTiledJSON('map1', '/assets/maps/level_1.json');
-		this.load.tilemapTiledJSON('map2', '/assets/maps/level_2.json');
-		this.load.atlas('useful', '/assets/images/atlas/images1.png', '/assets/images/atlas/images1_atlas.json');
+		this.load.image('images1', './assets/images/atlas/images1.png');
+		this.load.tilemapTiledJSON('map1', './assets/maps/level_1.json');
+		this.load.tilemapTiledJSON('map2', './assets/maps/level_2.json');
+		this.load.atlas('useful', './assets/images/atlas/images1.png', '/assets/images/atlas/images1_atlas.json');
 		
 		
 		
