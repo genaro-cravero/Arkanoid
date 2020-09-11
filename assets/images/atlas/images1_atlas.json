@@ -222,7 +222,7 @@
             }
         },
         {
-            "filename": "bar0",
+            "filename": "bar00",
             "frame": {
                 "w": 64,
                 "h": 64,
@@ -235,7 +235,7 @@
             }
         },
         {
-            "filename": "bar1",
+            "filename": "bar01",
             "frame": {
                 "w": 64,
                 "h": 64,
@@ -248,7 +248,7 @@
             }
         },
         {
-            "filename": "bar2",
+            "filename": "bar02",
             "frame": {
                 "w": 64,
                 "h": 64,

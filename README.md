@@ -1,1 +1,1 @@
-"# Arkanoid" 
+"# Arkanoid by Genaro Nicolás Cravero" 

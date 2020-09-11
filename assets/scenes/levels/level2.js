@@ -2,7 +2,7 @@ class level2 extends Phaser.Scene{
     constructor(){
         super("level2");
     }
-
+    ballOnBar = true;
 
     create(){
 
@@ -11,129 +11,126 @@ class level2 extends Phaser.Scene{
         mapimages = map.addTilesetImage('images1');
         //?capas
         background = map.createStaticLayer('background', [mapimages],0,0);
-        wallsv_layer = map.createStaticLayer('walls_v',[mapimages],0,0).setScale(0.15,1);
-        wallsv2_layer = map.createStaticLayer('walls_v2',[mapimages],600,0).setScale(0.15,1);
-        wallsh_layer = map.createStaticLayer('walls_h',[mapimages],0,0).setScale(1,0.15);
+        wallsv_layer = map.createStaticLayer('walls_v',[mapimages],-56,0);
+        wallsv2_layer = map.createStaticLayer('walls_v2',[mapimages],56,0);
+        wallsh_layer = map.createStaticLayer('walls_h',[mapimages],0,-56);
 
-            //?ladrillos
-            brick_y_layer = map.getObjectLayer('brick_y')['objects'];
-            brick_y = this.physics.add.group();
-            brick_y_layer.forEach(object => {
-                obj = brick_y.create(object.x,object.y,'useful','yellow_brick');
-                obj.setSize(64,32).setOffset(0,32);
-                obj.body.immovable = true;
-            });
-            brick_g_layer = map.getObjectLayer('brick_g')['objects'];
-            brick_g = this.physics.add.group();
-            brick_g_layer.forEach(object => {
-                obj = brick_g.create(object.x,object.y,'useful','green_brick');
-                obj.setSize(64,32).setOffset(0,32);
-                obj.body.immovable = true;
-            });
-            brick_p_layer = map.getObjectLayer('brick_p')['objects'];
-            brick_p = this.physics.add.group();
-            brick_p_layer.forEach(object => {
-                obj = brick_p.create(object.x,object.y,'useful','pink_brick');
-                obj.setSize(64,32).setOffset(0,32);
-                obj.body.immovable = true;
-            });
-            brick_r_layer = map.getObjectLayer('brick_r')['objects'];
-            brick_r = this.physics.add.group();
-            brick_r_layer.forEach(object => {
-                obj = brick_r.create(object.x,object.y,'useful','red_brick');
-                obj.setSize(64,32).setOffset(0,32);
-                obj.body.immovable = true;
-            });
-            brick_r_layer = map.getObjectLayer('brick_r')['objects'];
-            brick_r = this.physics.add.group();
-            brick_r_layer.forEach(object => {
-                obj = brick_r.create(object.x,object.y,'useful','red_brick');
-                obj.setSize(64,32).setOffset(0,32);
-                obj.body.immovable = true;
-            });
-            brick_v_layer = map.getObjectLayer('brick_v')['objects'];
-            brick_v = this.physics.add.group();
-            brick_v_layer.forEach(object => {
-                obj = brick_v.create(object.x,object.y,'useful','purple_brick');
-                obj.setSize(64,32).setOffset(0,32);
-                obj.body.immovable = true;
-            });
-            brick_b_layer = map.getObjectLayer('brick_b')['objects'];
-            brick_b = this.physics.add.group();
-            brick_b_layer.forEach(object => {
-                obj = brick_b.create(object.x,object.y,'useful','blue_brick');
-                obj.setSize(64,32).setOffset(0,32);
-                obj.body.immovable = true;
-            });
-
-            brickM_layer = map.getObjectLayer('brick_metal')['objects'];
-            brickM=this.physics.add.group();
-            brickM_layer.forEach(object => {
-                obj = brickM.create(object.x, object.y, "useful", 'metal_brick00'); 
-                obj.setSize(64,32).setOffset(0,32);
-                obj.body.immovable= true;
-            });
+        //?ladrillos
+        Varlevel2 = true;
+        let ladrillosss = new Ladrillos({scene:this})
+    
         
             
         //!ball and bar
         ball = this.physics.add.sprite(365,568,'useful', 'ball').setScale(0.5).setSize(16,16).setBounce(1);
-        ball.setVelocityY(400);
+        
     
-        player = this.physics.add.sprite(350,600, 'useful', 'bar0').setScale(1.5).setSize(64,32).setOffset(0,32);
+        player = new Player({scene:this, x:350, y:600, texture:'useful',sprite:'bar00'}).setScale(1.5).setSize(64,32).setOffset(0,32);
         player.body.immovable= true;
-    
+
+        vidas = new Health ({scene: this});
         
         ////input events
         cursor_a = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         cursor_d = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        cursor_w = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         
+        ////Music y sfx
+        this.music = this.sound.add('arkasong1');
+        this.music.loop = true;
+        this.music.play();
+        this.brickSound = this.sound.add('brick');
+        this.barSound = this.sound.add('barsound');
+        this.metalSound = this.sound.add('metal');
+        
+        ////Score
+        let textCreator = new Textos({scene: this, x:550, y:660})   
 
         ////collisions
         wallsh_layer.setCollisionByExclusion([-1]);
         wallsv_layer.setCollisionByExclusion([-1]);
         wallsv2_layer.setCollisionByExclusion([-1]);
-        this.physics.add.collider(ball,player);
+        this.physics.add.collider(ball,player,this.bounceUp, null, this);
         this.physics.add.collider(ball, wallsh_layer);
         this.physics.add.collider(ball, wallsv_layer);
         this.physics.add.collider(ball, wallsv2_layer);
         this.physics.add.collider(player, wallsv_layer);
         this.physics.add.collider(player, wallsv2_layer);
-        this.physics.add.collider(ball,brickM);
-        this.physics.add.collider(ball,brick_y);
-        this.physics.add.collider(ball,brick_r);
-        this.physics.add.collider(ball,brick_g);
-        this.physics.add.collider(ball,brick_v);
-        this.physics.add.collider(ball,brick_p);
-        this.physics.add.collider(ball,brick_b);
+        this.physics.add.collider(ball,brickM, ()=> this.metalSound.play(),null,this);
+        this.physics.add.collider(ball,brick_y,this.brickDestroy, null, this);
+        this.physics.add.collider(ball,brick_r,this.brickDestroy, null, this);
+        this.physics.add.collider(ball,brick_g,this.brickDestroy, null, this);
+        this.physics.add.collider(ball,brick_v,this.brickDestroy, null, this);
+        this.physics.add.collider(ball,brick_p,this.brickDestroy, null, this);
+        this.physics.add.collider(ball,brick_b,this.brickDestroy, null, this);
         
-
-        wallsh_layer.renderDebug(this.add.graphics(),{
-            tileColor: null,
-            collidingTileColor: new Phaser.Display.Color(243,134,48,200),
-            faceColor: new Phaser.Display.Color(40,39,37,255)
-        });
-        wallsv2_layer.renderDebug(this.add.graphics(),{
-            tileColor: null,
-            collidingTileColor: new Phaser.Display.Color(243,134,48,200),
-            faceColor: new Phaser.Display.Color(40,39,37,255)
-        });
+        
     }
 
 
     update(){
-
-        if(cursor_a.isDown){
-            player.setVelocityX(-250);
-            }else if(cursor_d.isDown){
-                player.setVelocityX(250);
-                }else{
-                    player.setVelocityX(0);
+        if(ballOnBar === true){
+            ball.x = player.x+10;
+            ball.y = player.y-6;
+            
+            if(cursor_w.isDown){
+                ballOnBar = false;
+                ball.setVelocityY(-400);
+                ball.setVelocityX(20);
+            };
+        };
+        if(ball.y > player.y+60){
+            ballOnBar=true;
+            value = value -1;
+            score = score -475;
+            if(score < 0){
+                score = 0;
+            }
+            text.setText('Puntos: '+ score);
+           
+            
+        };
+        
+        if(value===0){
+            this.gameOver();
         }
-
-
-
 
     }
 
+    bounceUp(){
+        this.barSound.play();
+        if(ball.x < player.x){
+            velocityBounce = player.x - ball.x;
+            ball.body.velocity.x = (-5 * velocityBounce);
+            return;
+        }
+        else if(ball.x > player.x){
+            velocityBounce = ball.x - player.x;
+            ball.body.velocity.x = (5 * velocityBounce);
+            return;
+        };
+    };
 
+    brickDestroy(bricks,brick){
+        brick.destroy(brick.x, brick.y);
+        score = score + 125;
+        text.setText('Puntos: '+score);
+        brickCounter = brickCounter + 1;
+        this.brickSound.play();
+        if(brickCounter === 58){
+            brickCounter = 0;
+            ballOnBar = true;
+            this.physics.pause(true,true);
+            this.add.text(100,300,'FELICITACIONES!!!',{fontFamily:'Arial Black', fontSize: 50}).setTint(0x00ff33);
+            this.add.text(100,420,'Puntaje total: '+score,{fontFamily:'Arial Black', fontSize: 30}).setTint(0x2e003b);
+        };    
+    }
+    gameOver(){
+        vidas.destroy();
+        brickCounter = 0;
+        score = 0;
+        value = 3;
+        this.scene.restart('level2');
+        this.music.stop();
+    }
 }

@@ -24,7 +24,10 @@ class preloadScene extends Phaser.Scene{
 		this.load.tilemapTiledJSON('map1', './assets/maps/level_1.json');
 		this.load.tilemapTiledJSON('map2', './assets/maps/level_2.json');
 		this.load.atlas('useful', './assets/images/atlas/images1.png', './assets/images/atlas/images1_atlas.json');
-		
+		this.load.audio('brick','./assets/sfx/brick.wav');
+		this.load.audio('arkasong1','./assets/sfx/arkasong1.wav');
+		this.load.audio('barsound','./assets/sfx/bar.wav');
+		this.load.audio('metal','./assets/sfx/metal.wav');
 		
 		
 
