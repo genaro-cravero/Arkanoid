@@ -5,7 +5,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         config.scene.add.existing(this);
         config.scene.physics.add.existing(this)
         this.scene.events.on('update', this.update , this);
-
+        
 
     }
     update(){

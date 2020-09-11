@@ -1,3 +1,9 @@
+let arkatext;
+let i = 0;
+let hsv;
+let topc;
+let bottomc;
+
 class menu extends Phaser.Scene{
     constructor(){
         super("menu");
@@ -5,6 +11,8 @@ class menu extends Phaser.Scene{
 
 
     create(){
+        hsv = Phaser.Display.Color.HSVColorWheel();
+
         ////animaciones
         this.anims.create({
             key: 'metalAnim',
@@ -45,15 +53,30 @@ class menu extends Phaser.Scene{
         });
         
         //// Título y opciones
-        this.add.text(205,200, 'Arkanoid', { fontSize: '64px', fill: '#FFFF', fontFamily: 'Arial Black'  });
+        arkatext = this.add.text(352,200, 'Arkanoid', { fontSize: '64px', fill: '#00000', fontFamily: 'Arial Black'  }).setStroke('#fff',5).setOrigin(0.5);
 
         this.add.text(205,350, 'Level 1', { fontSize: '32px', fill: '#020b96', fontFamily: 'Arial Black'})
         .setInteractive().on('pointerdown', ()=>{this.scene.start('level1')});
-        this.add.text(205,400, 'Level 2', { fontSize: '32px', fill: '#4003a8', fontFamily: 'Arial Black'})
+        this.add.text(253,400, 'Level 2', { fontSize: '32px', fill: '#4003a8', fontFamily: 'Arial Black'})
         .setInteractive().on('pointerdown', ()=>{this.scene.start('level2')});
 
+        this.add.text(315,480, 'Instrucciones', { fontSize: '16px', fill: '#ac06c2', fontFamily: 'Arial Black'})
+        .setInteractive().on('pointerdown', ()=>{this.scene.start('instructions')});
     }
+    update(){
+        topc = hsv[i].color;
+        bottomc = hsv[359 - i].color;
 
+        arkatext.setTint(topc, bottomc, topc, bottomc);
+
+        i++;
+
+        if (i === 360)
+        {
+            i = 0;
+        }
+     
+    }
 
 
 

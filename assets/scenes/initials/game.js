@@ -18,7 +18,7 @@ var config = {
     },
     
     
-    scene: [preloadScene, menu, level1, level2]
+    scene: [preloadScene, menu, level1, level2, instructions]
 };
 
 var game = new Phaser.Game(config);
@@ -47,6 +47,7 @@ var brickM;
 var ball;
 var player;
 var obj;
+var objM;
 var cursor_a;
 var cursor_d;
 var cursor_w;

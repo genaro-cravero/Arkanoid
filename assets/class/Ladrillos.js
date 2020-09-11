@@ -43,8 +43,8 @@ class Ladrillos extends Phaser.GameObjects.Sprite{
             brickM_layer = map.getObjectLayer('brick_metal')['objects'];
             brickM=config.scene.physics.add.group();
             brickM_layer.forEach(object => {
-                obj.anims.play('metalAnim');
                 obj = brickM.create(object.x, object.y, "useful", 'metal_brick00'); 
+                obj.anims.play('metalAnim');
                 obj.setSize(64,32).setOffset(0,32);
                 obj.body.immovable= true;
             });

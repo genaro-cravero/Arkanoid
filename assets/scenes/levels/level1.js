@@ -26,6 +26,19 @@ class level1 extends Phaser.Scene{
     
         player = new Player({scene:this, x:350, y:600, texture:'useful',sprite:'bar00'}).setScale(1.5).setSize(64,32).setOffset(0,32);
         player.body.immovable= true;
+        player.setInteractive();
+        this.input.setDraggable(player);
+        this.input.on('drag',function(pointer,gameObject,dragX){
+            gameObject.x = dragX;
+        });
+        this.input.on('dragend',function(pointer,gameObject,dragX){
+            if(ballOnBar === true){                
+                ballOnBar = false;
+                ball.setVelocityY(-400);
+                ball.setVelocityX(20);
+            };
+        });
+        
 
         vidas = new Health ({scene: this});
 
@@ -57,7 +70,7 @@ class level1 extends Phaser.Scene{
         this.physics.add.collider(ball, wallsv2_layer);
         this.physics.add.collider(player, wallsv_layer);
         this.physics.add.collider(player, wallsv2_layer);
-        this.physics.add.collider(ball,brickM, ()=> this.metalSound.play(),null,this);
+        this.physics.add.collider(ball,brickM, this.doMetal,null,this);
         this.physics.add.collider(ball,brick_y, this.brickDestroy, null, this);
         this.physics.add.collider(ball,brick_g, this.brickDestroy, null, this);
         this.physics.add.collider(ball,brick_v, this.brickDestroy, null, this);
@@ -71,6 +84,8 @@ class level1 extends Phaser.Scene{
     update(){
 
         if(ballOnBar === true){
+            ball.body.velocity.x =0;
+            ball.body.velocity.y =0;
             ball.x = player.x+10;
             ball.y = player.y-6;
             
@@ -135,5 +150,19 @@ class level1 extends Phaser.Scene{
         this.scene.restart('level1');
         this.music.stop();
     }
+
+    doMetal(){
+        this.metalSound.play();
+        ball.body.velocity.y = ball.body.velocity.y*1.005;
+        ball.body.velocity.x =  ball.body.velocity.x*1.005;
+        if(ball.body.velocity.y>= 1000){
+            ball.body.velocity.y = ball.body.velocity.y/4 
+        };
+        if(ball.body.velocity.x>= 1000){
+            ball.body.velocity.x = ball.body.velocity.x/4 
+        };
+    }
+    
+    
     
 }
